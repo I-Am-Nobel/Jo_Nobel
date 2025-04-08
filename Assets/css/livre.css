@@ -1,0 +1,70 @@
+/* Lire Article Contacts Auteur */
+.social-media a,.Soutenir a {
+  font-size: x-large;
+ }
+ /*  */
+.article{
+    width: 25%;
+    border: 0.4px solid #aaa;
+    border-radius: 5px;
+}
+
+.article img{
+    height: 250px;
+    object-fit: cover;
+}
+.commande{
+  background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151)) ;
+  border:1px solid rgb(236, 236, 236);
+  cursor: pointer;
+}
+.commande:hover{
+  background: radial-gradient(circle,rgb(133, 133, 133),rgb(124, 124, 124),rgb(192, 192, 192)) ;
+}
+@media (max-width:1100px) {
+    .article{
+        width: 32%;
+    }
+  }
+@media (max-width:915px) {
+    .article{
+        width: 45%;
+    }
+  }
+  @media (max-width:630px) {
+    .article{
+        width: 95%;
+    }
+  }
+
+  /* SearchInput */
+.SearchInput:focus{
+    outline: none;
+  }
+  .SearchInput,.searchIcon{
+        width: 100%;
+        background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151)) ;
+        border:1px solid rgba(68, 68, 68, 0.829);
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 8px 20px rgba(117, 2, 102, 0.1);
+        border-radius: 25px;
+        padding: 5px;
+        font-size: 16px;
+        color: rgb(34, 34, 34);
+  }
+  #livrelink{
+    text-decoration: none;
+    color: rgb(37, 23, 2);
+  }
+ 
+  .SearchInput::placeholder{
+    text-align: center;
+    color: rgb(253, 253, 253);
+  }
+  /* Pagination */
+  .activePage{
+    background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151)) ;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }

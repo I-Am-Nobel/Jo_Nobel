@@ -1,0 +1,63 @@
+
+
+.livreTITRE
+{
+    display: flex;
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151)) ;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+}
+.femme p
+{  
+    color:brown;
+    background: none;
+}
+.femme h3
+{
+    font-size: xx-large;
+    color: cadetblue;
+}
+.histoire
+{
+    /* padding:15em ; */
+    /* background-image: url(image/histoireduco.jfif); */
+    color: rgb(3, 15, 15);
+}
+
+
+
+.lire span
+{
+    color: rgb(255, 187, 0);
+    font-size: 1.4em;
+    font-family:'Courier New', Courier, monospace;
+}
+.lire strong
+{
+    color: rgb(1, 1, 77);
+    font-style: oblique;
+    font-size: 0.8em;
+}
+
+.paragraph-ac {
+    background: radial-gradient(circle,rgb(230, 179, 15),rgb(248, 246, 135),rgb(118, 124, 63)) ;
+    font-family: serif;
+    border-radius: 5px;
+    margin-bottom: 500%;
+}
+@media (max-width:645px) {
+    .titre h1
+    {
+       
+        font-size: 2.5em;
+       
+    }
+    .lire span
+{
+    font-size: 2em;
+}
+}
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babba Ballena</title>
+    
+    <link rel="stylesheet" href="./Assets/css/index.css">
+    <link rel="stylesheet" href="./Assets/img/icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./Assets/css/bootstrap.min.css">
+</head>
+<style>
+    img{
+        max-width: 100%;
+        max-height: 300px;
+    }
+</style>
+<body>
+    <div class="w-100 NavbarContent px-4">
+        <!-- Navbar -->
+     </div>
+
+    <div id="article-body"   style="margin-top: 60px; height: 100vh; width: 100%;">
+        <div class="sticky-top">
+            <i onclick="(()=>window.history.back())();" 
+                class="bi bi-arrow-left mx-4"  style="font-size:32px;cursor: pointer;"></i>
+        </div>
+        <div id="LireArticle" class="container-fluid"></div>
+        <div class="footer" style="padding-bottom: 60px;" ></div>
+</div>
+<footer style="position: fixed;bottom: 0;
+width: 100%; color: #f3f3f3;   background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151)) ;"
+  class="p-1 d-flex justify-content-center">
+  <small>copyrigth &copy; 2025, Babba Ballena</small>
+</footer>
+<script  src="./Assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+    import {Theme} from './Assets/js/Theme/theme.js'
+    import {AfficherNavbar} from './Assets/js/Navbar/navbar.js'
+    window.addEventListener('DOMContentLoaded',()=>{
+      const theme = Theme()
+       document.getElementById('article-body').style.color=theme=='#ffffff'?'#333':'#eee'
+       AfficherNavbar()
+    })
+ </script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="module" src="Assets\js\LireArticle\lecture.js"></script>
+</body>
+
+</html>

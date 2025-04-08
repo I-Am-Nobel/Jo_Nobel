@@ -1,0 +1,49 @@
+
+.nav-item span,.nav-item i{
+    color: rgb(14, 13, 13);
+}
+.NavbarContent a{
+    text-decoration: none;
+    color: rgb(14, 13, 13);
+    }
+ .NavbarContent{  
+    border: 1px solid rgb(238, 238, 238);
+    padding: 3px;
+    background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151));
+    position: fixed; 
+     z-index: 2000 ;
+     display: flex;
+     justify-content: space-between;
+     top: 0;
+    }
+.nav-item{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (max-width:540px) {
+
+}
+@media (max-width:354px) {
+    .divHeader  span{
+        display: none;
+    }
+    #activePage{
+        width: 50px;
+        background: #ffffff;
+        border-radius: 50%;
+    }
+}
+@media (max-width:423px) {
+    .home,.project,.contact{
+    margin-left: 5px;
+    text-align: center;
+
+}
+
+}
+
+@media (min-width: 740px) {
+
+}
