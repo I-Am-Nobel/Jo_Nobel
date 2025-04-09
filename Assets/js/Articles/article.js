@@ -1,157 +1,196 @@
-import Data from './data.js'
+import Data from './data.js';
 import { Theme } from '../Theme/theme.js';
-const AlData = Data(); // Récupération des données
-let Datas = [...AlData]; // Clonage pour éviter de modifier les données originales
 
-// Variables de pagination
-let pageAct = 1; // Page actuellement active
-let firstPage = 1;
-let pagesNbr = Math.ceil(Datas.length / 10); // Nombre total de pages
-let Articles = Datas.slice(0, 10); // Premiers articles affichés
-let SearchResult = [];
-let notFound = false;
+// Configuration
+const ARTICLES_PER_PAGE = 10;
+const SEARCH_DEBOUNCE_DELAY = 300;
 
-// Fonction debounce pour optimiser la recherche
-const debounce = (fn, delay) => {
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => fn(...args), delay);
-    };
+// État de l'application
+const state = {
+    allData: Data(),
+    currentData: [...Data()],
+    currentPage: 1,
+    firstPageInView: 1,
+    searchResults: [],
+    notFound: false
 };
 
-// Chargement des articles
-function LoadData(Articles) {
-    console.log('Chargé', Articles.length);
-    const ArticlesContainer = document.querySelector('.articles-container');
-    ArticlesContainer.innerHTML = ''; // Effacer le contenu précédent
+/**
+ * Crée une carte d'article
+ * @param {Object} article - Les données de l'article
+ * @param {number} index - L'index de l'article
+ * @returns {string} HTML de la carte
+ */
+const createArticleCard = (article, index) => `
+    <div id='${index}' class="cards articles m-2 p-2">
+        <h5 style="text-align: center;">${article.Titre}</h5>
+        <img class="img-fluid w-100" loading="lazy" src="${article.ImgSrc}" alt="">
+        <p>${marked.parse(article.description.trim())}</p>
+        <div class="p-2 commande my-2 rounded" style="text-align: center;">
+            <a style="text-decoration: none; color: #fff; font-weight: bold;" href='${article.url}'>
+                <i class="bi bi-book"></i>
+                Explorer
+            </a>
+        </div>
+    </div>
+`;
 
-    if (Articles.length === 0) {
-        ArticlesContainer.innerHTML = `
+/**
+ * Charge les articles dans le conteneur
+ * @param {Array} articles - Les articles à afficher
+ */
+function loadArticles(articles) {
+    const container = document.querySelector('.articles-container');
+    
+    if (articles.length === 0) {
+        container.innerHTML = `
             <div class="d-flex text-dark justify-content-center my-4 rounded p-4"
                 style="flex-direction: column;
                 background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151));
                 text-align:center;">
                 <h4>Oups !</h4> 
-                Aucun livre ne correspond aux critères de recherche. Vérifiez l'orthographe !
+                Aucun article trouvé, vérifiez l'orthographe !
             </div>`;
         return;
     }
 
-    Articles.forEach((article, index) => {
-        const ArticleBoucle = document.createElement("div");
-        ArticleBoucle.classList.add("article");
-        ArticleBoucle.innerHTML = `
-             <div id='${index}' class="cards articles m-2 p-2">
-                <h5 style="text-align: center;">${article.Titre}</h5>
-                <img class="img-fluid w-100" loading="lazy" src="${article.ImgSrc}" alt="">
-                <p >
-                    ${marked.parse(article.description.trim())}
-                </p>
-                <div class="p-2 commande my-2 rounded" style="text-align: center;">
-                <a style="text-decoration: none; color: #fff; font-weight: bold; " href='${article.url}'>
-                    <i class="bi bi-book"></i>
-                    Explorer
-                </a>
-                </div>
+    container.innerHTML = articles
+        .map((article, index) => `
+            <div class="article">
+                ${createArticleCard(article, index)}
             </div>
-        `;
-        ArticlesContainer.appendChild(ArticleBoucle);
-        Theme()
-    });
+        `)
+        .join('');
+
+    Theme();
 }
 
-// Fonction pour afficher les données en fonction de la page
-const ShowData = () => {
-    Articles = Datas.slice((pageAct - 1) * 10, pageAct * 10);
-    LoadData(Articles);
-};
+/**
+ * Met à jour l'affichage des articles
+ */
+function updateArticlesDisplay() {
+    const startIndex = (state.currentPage - 1) * ARTICLES_PER_PAGE;
+    const endIndex = startIndex + ARTICLES_PER_PAGE;
+    const articlesToShow = state.currentData.slice(startIndex, endIndex);
+    loadArticles(articlesToShow);
+}
 
-// Gestion de la recherche avec `debounce`
-document.getElementById('Rechercher').oninput = debounce((e) => {
-    let searchData = e.target.value.trim().toLowerCase();
-    // console.log('searchData', searchData);
-
-    if (!searchData) {
-        // Recherche vide => réinitialisation
-        SearchResult = [];
-        Datas = [...AlData]; // Recharger toutes les données
-        notFound = false;
-        pageAct = 1;
-    } else {
-        SearchResult = AlData.filter(art => art.Titre.toLowerCase().includes(searchData));
-        notFound = SearchResult.length === 0;
-        Datas = SearchResult;
-    }
-
-    pagesNbr = Math.ceil(Datas.length / 10);
-    resetPagination();
-}, 300);
-
-// Fonction pour construire la pagination
-const BuildPagination = () => {
+/**
+ * Construit la pagination
+ */
+function buildPagination() {
+    const totalPages = Math.ceil(state.currentData.length / ARTICLES_PER_PAGE);
     const pagination = document.getElementById('pagination');
-    if (pagesNbr <= 1 || notFound) {
-        pagination.innerHTML = ''; // Cacher la pagination si 404 ou une seule page
+
+    if (totalPages <= 1 || state.notFound) {
+        pagination.innerHTML = '';
         return;
     }
 
-    let paginationHTML = `<div class="m-0 border-0"><nav><ul class="pagination">`;
+    const pages = Array.from(
+        { length: Math.min(5, totalPages - state.firstPageInView + 1) },
+        (_, i) => state.firstPageInView + i
+    );
 
-    if (firstPage > 1) {
-        paginationHTML += `<li class="page-item"><a id="Prev" class="page-link" style="cursor:pointer;">&laquo;</a></li>`;
+    pagination.innerHTML = `
+        <div class="m-0 border-0">
+            <nav>
+                <ul class="pagination">
+                    ${state.firstPageInView > 1 ? 
+                        '<li class="page-item"><a id="Prev" class="page-link" style="cursor:pointer;">&laquo;</a></li>' 
+                        : ''
+                    }
+                    ${pages.map(page => `
+                        <li class="page-item">
+                            <a id="page${page}" 
+                               class="page-link ${state.currentPage === page ? 'activePage' : ''}" 
+                               style="cursor:pointer;">
+                                ${page}
+                            </a>
+                        </li>
+                    `).join('')}
+                    ${totalPages > state.firstPageInView + 4 ?
+                        '<li class="page-item"><a id="Next" class="page-link" style="cursor:pointer;">&raquo;</a></li>'
+                        : ''
+                    }
+                </ul>
+            </nav>
+        </div>
+    `;
+}
+
+/**
+ * Réinitialise la pagination
+ */
+function resetPagination() {
+    state.currentPage = 1;
+    state.firstPageInView = 1;
+    buildPagination();
+    updateArticlesDisplay();
+}
+
+/**
+ * Gère la recherche d'articles
+ * @param {string} searchTerm - Le terme de recherche
+ */
+const handleSearch = debounce((searchTerm) => {
+    searchTerm = searchTerm.trim().toLowerCase();
+
+    if (!searchTerm) {
+        state.searchResults = [];
+        state.currentData = [...state.allData];
+        state.notFound = false;
+        state.currentPage = 1;
+    } else {
+        state.searchResults = state.allData.filter(
+            article => article.Titre.toLowerCase().includes(searchTerm)
+        );
+        state.notFound = state.searchResults.length === 0;
+        state.currentData = state.searchResults;
     }
 
-    for (let i = firstPage; i <= Math.min(pagesNbr, firstPage + 4); i++) {
-        paginationHTML += `<li class="page-item">
-            <a id="page${i}" class="page-link ${pageAct === i ? 'activePage' : ''}" style="cursor:pointer;">${i}</a>
-        </li>`;
-    }
+    resetPagination();
+}, SEARCH_DEBOUNCE_DELAY);
 
-    if (pagesNbr > firstPage + 4) {
-        paginationHTML += `<li class="page-item"><a id="Next" class="page-link" style="cursor:pointer;">&raquo;</a></li>`;
-    }
+// Event Listeners
+document.getElementById('Rechercher').addEventListener('input', 
+    (e) => handleSearch(e.target.value)
+);
 
-    paginationHTML += `</ul></nav></div>`;
-    pagination.innerHTML = paginationHTML;
-};
-
-// Reset de la pagination
-const resetPagination = () => {
-    pageAct = 1;
-    firstPage = 1;
-    BuildPagination();
-    ShowData();
-};
-
-// Gestion des événements de pagination avec `event delegation`
 document.getElementById('pagination').addEventListener('click', (e) => {
-    if (e.target.classList.contains("page-link")) {
-        if (e.target.id === "Next") {
-            firstPage += 5;
-        } else if (e.target.id === "Prev") {
-            firstPage -= 5;
-        } else {
-            pageAct = parseInt(e.target.textContent);
-            document.querySelector('.livreTITRE')?.click(); // Retourner en haut
-        }
-        BuildPagination();
-        ShowData();
-        // 
+    if (!e.target.classList.contains('page-link')) return;
+
+    if (e.target.id === 'Next') {
+        state.firstPageInView += 5;
+    } else if (e.target.id === 'Prev') {
+        state.firstPageInView -= 5;
+    } else {
+        state.currentPage = parseInt(e.target.textContent);
+        document.querySelector('.livreTITRE')?.click();
     }
+
+    buildPagination();
+    updateArticlesDisplay();
 });
 
-// Gestion des commandes WhatsApp avec `event delegation`
 document.querySelector('.articles-container').addEventListener('click', (e) => {
-    if (e.target.closest(".whatsappMsg")) {
-        const button = e.target.closest(".whatsappMsg");
-        const numero = button.getAttribute("data-numero");
-        const message = button.getAttribute("data-message");
-        const url = `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
-        window.open(url, "_blank");
-    }
+    const whatsappButton = e.target.closest('.whatsappMsg');
+    if (!whatsappButton) return;
+
+    const { numero, message } = whatsappButton.dataset;
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
 });
+
+// Fonction utilitaire debounce
+function debounce(fn, delay) {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+}
 
 // Initialisation
-BuildPagination();
-ShowData();
+buildPagination();
+updateArticlesDisplay();
