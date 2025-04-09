@@ -41,6 +41,10 @@ export function Theme() {
     if (articleBody) {
         articleBody.style.color = theme === THEME.LIGHT ? THEME.TEXT.LIGHT : THEME.TEXT.DARK;
     }
-    
+    // Appliquer dans apropos si dispo
+    const apropos = document.querySelector('.apropos')
+    if (apropos) {
+        apropos.style.color = theme === THEME.LIGHT ? THEME.TEXT.LIGHT : THEME.TEXT.DARK;
+    }
     return theme;
 }
