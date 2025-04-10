@@ -8,7 +8,7 @@ export function CongoBelge10c() {
         ImgSrc: 'Assets/js/Articles/Redaction/10cCongoBelge/CongoBelge10c.jpg',
         Titre: 'Pièce de 10 centimes du Congo belge',
         description: "Frappée en **1910**, deux ans seulement après que le Congo soit passé du statut d'**État indépendant du roi Léopold II** à **colonie de la Belgique**...",
-        url: 'article.html?title=Pièce de 10 centimes du Congo belge',
+        url: 'https://i-am-nobel.github.io/Jo_Nobel/article.html?title=Pièce de 10 centimes du Congo belge',
         AuteurContact: {
             facebook: 'https://www.facebook.com/JosueNobel',
             github: 'https://www.github.com/i-am-nobel',
@@ -29,10 +29,9 @@ export function CongoBelge10c() {
         content: `
 # La pièce de 10 centimes du Congo belge (1910)  
 *Quand l'histoire coloniale tenait dans le creux d'une main.*
-
-![Pièce de 10 centimes du Congo belge de 1910](Assets/js/Articles/Redaction/10cCongoBelge/CongoBelge10c.jpg)
-
----
+<div class='d-flex justify-content-center'>
+<img src="Assets/js/Articles/Redaction/10cCongoBelge/CongoBelge10c.jpg" alt="Pièce de 10 centimes du Congo belge de 1910">
+</div>
 
 Il est difficile d'imaginer aujourd'hui ce que pouvait représenter une simple pièce trouée en cupronickel au début du XXe siècle. Et pourtant, en 1910, dans les marchés poussiéreux, les comptoirs administratifs ou les postes militaires du **Congo belge**, cette petite rondelle de métal frappée d'une étoile avait une valeur bien réelle. Elle participait à l'organisation de la vie quotidienne dans une colonie marquée par les grandes transformations imposées par la Belgique.
 

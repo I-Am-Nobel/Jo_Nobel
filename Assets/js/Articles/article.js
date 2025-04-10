@@ -14,6 +14,40 @@ const state = {
     searchResults: [],
     notFound: false
 };
+/**
+ * fonction pour copier le lien
+ * @param {String} url
+ */
+const handleCopy=(url)=>{
+    navigator.clipboard.writeText(url);
+    const copier =document.querySelector('.copier-lien')
+    copier &&( copier.innerHTML='Lien copié')
+    setTimeout(() => {
+        copier &&( copier.innerHTML='Copier Lien')
+    }, 1000);
+}
+/**
+ * fonction pour partager
+ * @param {Object} article 
+ */
+const handleShare=(article)=>{
+    if(navigator.share){
+        navigator.share({
+            title:article.Titre,
+            text:article.description,
+            url:article.url
+        })
+        .then( ()=> {
+            console.log('Partagé :')
+        })
+        .catch( e=> {
+            console.log('Erreur :',e)
+        })
+    }
+    else{
+        console.log('Erreur navigator.share n est pas supporté')
+    }
+}
 
 /**
  * Crée une carte d'article
@@ -22,14 +56,30 @@ const state = {
  * @returns {string} HTML de la carte
  */
 const createArticleCard = (article, index) => `
-    <div id='${index}' class="cards articles m-2 p-2">
+        <div id='${index}' class="cards articles m-2 p-2">
+        <div class="d-flex justify-content-between" >
+            <div></div>
+            <div style="cursor: pointer;" class="nav-item dropdown">
+                <i class="nav-link bi bi-list" style="font-size: 25px;" data-bs-toggle="dropdown" aria-expanded="false"> </i>
+                <div style="z-index: 5" class="dropdown-menu">
+                    <div class="dropdown-item copier-lien"
+                    onclick="(${handleCopy(article.url)})()"
+                    ><i class="bi bi-link-45deg" ></i> Copier Lien </div>
+                    <div class="dropdown-item"
+                    onclick="(${handleShare(article)})()"
+                    ><i class="bi bi-share" ></i> Partager </div>
+                </div>
+            </div>
+        </div>
         <h5 style="text-align: center;">${article.Titre}</h5>
-        <img class="img-fluid w-100" loading="lazy" src="${article.ImgSrc}" alt="">
+        <div class='d-flex justify-content-center' >
+        <img class="img-fluid " loading="lazy" src="${article.ImgSrc}" alt="">
+        </div>
         <p>${marked.parse(article.description.trim())}</p>
         <div class="p-2 commande my-2 rounded" style="text-align: center;">
             <a style="text-decoration: none; color: #fff; font-weight: bold;" href='${article.url}'>
                 <i class="bi bi-book"></i>
-                Explorer
+                Lire
             </a>
         </div>
     </div>

@@ -5,7 +5,8 @@
 export default function Data() {
     // Importation des articles
     const articles = [
-        CongoBelge10c()
+        CongoBelge10c(),
+        Esp8266(),
     ];
     
     // Validation des articles
@@ -20,3 +21,4 @@ export default function Data() {
 
 // Import des articles
 import { CongoBelge10c } from './Redaction/10cCongoBelge/10cCongoBelge.js';
+import { Esp8266 } from './Redaction/Esp8266/esp8266.js';
