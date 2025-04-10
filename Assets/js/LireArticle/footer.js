@@ -30,7 +30,7 @@ const socialLink = (contact, platform, icon, color, baseUrl = '') => {
     const href = baseUrl ? `${baseUrl}${contact[platform]}` : contact[platform];
     return `
         <a class="btn btn-link" href="${href}" target="_blank">
-            <i style="color: ${color}" class="bi ${icon}"></i>
+            <i style="color: ${color} ;font-size:40px;" class="bi ${icon}"></i>
         </a>
     `;
 };
@@ -94,12 +94,12 @@ export function Footer(article) {
                 ${createAccordionSection('aboutAuthor', 'bi-person', 'À propos de l\'auteur', article.aboutAuteur)}
                 
                 ${createAccordionSection('social-media', 'bi-people', 'Contacts de l\'auteur', 
-                    `<div class="d-flex flex-wrap">${socialLinks}</div>`
+                    `<div  class="d-flex flex-wrap">${socialLinks}</div>`
                 )}
                 
-                ${createAccordionSection('Sources', 'bi-journal-text', 'Sources et références', 
+                ${article.soutenir ? createAccordionSection('Sources', 'bi-journal-text', 'Sources et références', 
                     marked.parse(article.sources.trim())
-                )}
+                ):''}
                 
                 ${article.soutenir ? createAccordionSection('Soutenir', 'bi-heart', 'Soutenir l\'auteur',
                     `<div class="d-flex flex-wrap">
