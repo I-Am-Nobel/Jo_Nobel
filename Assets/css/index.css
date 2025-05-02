@@ -17,7 +17,7 @@
      top: 0;
     }
 .nav-item{
-    /* background-color: aqua; */
+    /* background-color: seachBar aqua; */
     display: flex;
     flex-direction: column;
     justify-content: center;
