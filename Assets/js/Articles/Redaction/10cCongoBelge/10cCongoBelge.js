@@ -8,7 +8,7 @@ export function CongoBelge10c() {
         ImgSrc: 'Assets/js/Articles/Redaction/10cCongoBelge/CongoBelge10c.jpg',
         Titre: 'Pièce de 10 centimes du Congo belge',
         description: "Frappée en **1910**, deux ans seulement après que le Congo soit passé du statut d'**État indépendant du roi Léopold II** à **colonie de la Belgique**...",
-        url: '/Jo_Nobel/article.html?title=Pièce de 10 centimes du Congo belge',
+        url: '/article.html?title=Pièce de 10 centimes du Congo belge',
         AuteurContact: {
             facebook: 'https://www.facebook.com/JosueNobel',
             github: 'https://www.github.com/i-am-nobel',
