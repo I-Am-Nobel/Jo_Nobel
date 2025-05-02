@@ -1,6 +1,6 @@
 import Data from './data.js';
 import { Theme } from '../Theme/theme.js';
-
+const domaine='https://jonobel.netlify.app/'
 // Configuration
 const ARTICLES_PER_PAGE = 10;
 const SEARCH_DEBOUNCE_DELAY = 300;
@@ -100,7 +100,7 @@ function loadArticles(articles) {
 
     // Ajouter les écouteurs d'événements après injection HTML
     container.querySelectorAll('.copier-lien').forEach(el => {
-        const url = el.getAttribute('data-url');
+        const url =domaine + el.getAttribute('data-url');
         el.addEventListener('click', () => {
             navigator.clipboard.writeText(url).then(() => {
                 el.innerHTML = '<i style="font-size: 27px;" class="bi bi-check"></i>';
@@ -119,7 +119,7 @@ function loadArticles(articles) {
                 navigator.share({
                     title: article.Titre,
                     text: article.description,
-                    url:article.url.replace(/ /g, '-')
+                    url:domaine + article.url.replace(/ /g, '-')
                 }).then(() => {
                     console.log("Partagé !");
                 }).catch(err => {
