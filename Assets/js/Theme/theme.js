@@ -46,5 +46,15 @@ export function Theme() {
     if (apropos) {
         apropos.style.color = theme === THEME.LIGHT ? THEME.TEXT.LIGHT : THEME.TEXT.DARK;
     }
+    // appliquer a tout les autres elements dont les classes sont notes ici
+    const Elements=  ['share-btn','copier-lien','a','text','i'] 
+    Elements.forEach(e=>{
+        const elements = document.querySelectorAll('.'+e)
+        if(elements.length >0){
+            elements.forEach(el=>{
+                el.style.color = theme === THEME.LIGHT ? THEME.TEXT.LIGHT : THEME.TEXT.DARK;
+            })
+        }
+    })
     return theme;
 }

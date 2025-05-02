@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Babba Ballena</title>
    <link rel="stylesheet" href="./Assets/css/livre.css">
+   <link rel="stylesheet" href="./Assets/css/article.css">
    <link rel="stylesheet" href="./Assets/css/index.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -73,11 +74,44 @@
       <div class="w-100 NavbarContent px-4">
          <!-- Navbar -->
       </div>
+      <!-- FILTRE  -->
+      <div style="margin-top: 50px;" class="filtreDiv w-100 d-flex justify-content-center align-items-center flex-column py-5">
+         
+       </div>
+       
+       <style>
+         option:hover {
+           background-color: #3d5a80;
+         }
+         .custom-select {
+           background-color: rgba(204, 204, 204, 0.6);
+            color: #0a0a0a;
+           border: none;
+           box-shadow: 2px 2px 5px rgb(112, 112, 112);
+           transition: background-color 0.3s ease, color 0.3s ease;
+         }
+       
+         .custom-select:focus {
+           outline: none;
+           box-shadow: none;
+           color: #444;
+         }
+       
+         .custom-select option {
+           background-color:  rgba(204, 204, 204, 0.6);
+           color: #444;
+         }
       
+         .filtre i {
+           font-size: 1.2rem;
+           margin-top: 2px;
+           color: #969696;
+         }
+       </style>
+      <!-- RECHERCHES -->       
       <div class="image w-100">
          <!-- RECHERCHES -->
-         <div class="py-2 w-100 container-fluid d-flex justify-content-center seachBar"
-            style="margin-top: 50px;">
+         <div class="py-2 w-100 container-fluid d-flex justify-content-center seachBar">
             <form class="d-flex w-100" role="search">
                <input 
                   id="Rechercher" 
@@ -88,7 +122,7 @@
             </form>
          </div>
          <!-- Articles -->
-         <div class="d-flex flex-wrap articles-container justify-content-center mb-4 gap-4">
+         <div class="d-flex row  flex-wrap articles-container justify-content-center mb-4 gap-4">
             <!-- Les articles seront ici -->
          </div> 
          <div id="pagination" class="d-flex justify-content-center"></div>

@@ -14,40 +14,8 @@ const state = {
     searchResults: [],
     notFound: false
 };
-/**
- * fonction pour copier le lien
- * @param {String} url
- */
-function handleCopy(url){
-    navigator.clipboard.writeText(url);
-    const copier =document.querySelector('.copier-lien')
-    copier &&( copier.innerHTML='Lien copié')
-    setTimeout(() => {
-        copier &&( copier.innerHTML='Copier Lien')
-    }, 1000);
-}
-/**
- * fonction pour partager
- * @param {Object} article 
- */
-function handleShare(article){
-    if(navigator.share){
-        navigator.share({
-            title:article.Titre,
-            text:article.description,
-            url:article.url
-        })
-        .then( ()=> {
-            console.log('Partagé :')
-        })
-        .catch( e=> {
-            console.log('Erreur :',e)
-        })
-    }
-    else{
-        console.log('Erreur navigator.share n est pas supporté')
-    }
-}
+
+
 
 /**
  * Crée une carte d'article
@@ -55,62 +23,113 @@ function handleShare(article){
  * @param {number} index - L'index de l'article
  * @returns {string} HTML de la carte
  */
-const createArticleCard = (article, index) => `
-        <div id='${index}' class="cards articles m-2 p-2">
-        <div class="d-flex justify-content-between" >
-            <div></div>
-            <div style="cursor: pointer;" class="nav-item dropdown">
-                <i class="nav-link bi bi-list" style="font-size: 25px;" data-bs-toggle="dropdown" aria-expanded="false"> </i>
-                <div style="z-index: 5" class="dropdown-menu">
-                    <div class="dropdown-item copier-lien"
-                    onclick="${handleCopy((article.url).replace(/ /g,'-'))}"
-                    ><i class="bi bi-link-45deg" ></i> Copier Lien </div>
-                    <div class="dropdown-item"
-                    onclick="${handleShare(article)}"
-                    ><i class="bi bi-share" ></i> Partager </div>
-                </div>
-            </div>
-        </div>
-        <h5 style="text-align: center;">${article.Titre}</h5>
-        <div class='d-flex justify-content-center' >
-        <img class="img-fluid " loading="lazy" src="${article.ImgSrc}" alt="">
-        </div>
-        <p>${marked.parse(article.description.trim())}</p>
-        <div class="p-2 commande my-2 rounded" style="text-align: center;">
-            <a style="text-decoration: none; color: #fff; font-weight: bold;" href='${(article.url).replace(/ /g,'-')}'>
-                <i class="bi bi-book"></i>
-                Lire
-            </a>
-        </div>
-    </div>
+const createArticleCard = (article, index) => {
+    /**
+ * fonction pour copier le lien
+ * @param {String} url
+ */
+    const handleCopy = (url) => {
+        console.log('Copier...')
+        navigator.clipboard.writeText(url);
+        const copier = document.querySelector('.copier-lien')
+        copier && (copier.innerHTML = 'Lien copié')
+        setTimeout(() => {
+            copier && (copier.innerHTML = 'Copier Lien')
+        }, 1000);
+    }
+   
+    return `
+    
+                <article id='${index}' class="article article-card">
+                    <img loading="lazy" src="${article.ImgSrc}" class="article-image w-100" alt="Article image">
+                    <div class="article-content">
+                        <h2 class="article-title">${article.Titre}</h2>
+                        <p class="article-excerpt">
+                            ${marked.parse(article.description.trim())}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div  class="read-more">
+                                <i class="bi bi-book"></i>
+                            <a class='a' href="${article.url.replace(/ /g, '-')}" >Lire la suite</a>
+                            </div>
+                            
+
+                            
+                            <div class="article-actions">
+                                <button  class=" copier-lien" data-url="${article.url.replace(/ /g, '-')}">
+                                    <i style="font-size: 27px;" class="bi bi-link-45deg"></i>
+                                </button>
+                                <button class="share-btn" data-index="${index}">
+                                    <i style="font-size: 25px;" class="bi bi-share"></i>
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </article>
+
 `;
 
+}
 /**
  * Charge les articles dans le conteneur
  * @param {Array} articles - Les articles à afficher
  */
 function loadArticles(articles) {
     const container = document.querySelector('.articles-container');
-    
+
     if (articles.length === 0) {
         container.innerHTML = `
-            <div class="d-flex text-dark justify-content-center my-4 rounded p-4"
+            <div class="d-flex w-75 container text-dark justify-content-center my-4 rounded p-4"
                 style="flex-direction: column;
                 background: radial-gradient(circle,rgb(112, 112, 112),rgb(173, 173, 173),rgb(151, 151, 151));
                 text-align:center;">
                 <h4>Oups !</h4> 
-                Aucun article trouvé, vérifiez l'orthographe !
+                Nous n'avons trouvés aucun article !
             </div>`;
         return;
     }
 
     container.innerHTML = articles
         .map((article, index) => `
-            <div class="article">
+            <div  class="col-md-6 gap-4  col-lg-4">
                 ${createArticleCard(article, index)}
             </div>
         `)
         .join('');
+
+    // Ajouter les écouteurs d'événements après injection HTML
+    container.querySelectorAll('.copier-lien').forEach(el => {
+        const url = el.getAttribute('data-url');
+        el.addEventListener('click', () => {
+            navigator.clipboard.writeText(url).then(() => {
+                el.innerHTML = '<i style="font-size: 27px;" class="bi bi-check"></i>';
+                setTimeout(() => {
+                    el.innerHTML = ' <i style="font-size: 27px;" class="bi bi-link-45deg"></i>';
+                }, 1000);
+            });
+        });
+    });
+
+    container.querySelectorAll('.share-btn').forEach(el => {
+        const index = el.getAttribute('data-index');
+        const article = articles[index];
+        el.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: article.Titre,
+                    text: article.description,
+                    url: article.url
+                }).then(() => {
+                    console.log("Partagé !");
+                }).catch(err => {
+                    console.error("Erreur partage :", err);
+                });
+            } else {
+                console.log("Partage non supporté");
+            }
+        });
+    });
 
     Theme();
 }
@@ -146,10 +165,10 @@ function buildPagination() {
         <div class="m-0 border-0">
             <nav>
                 <ul class="pagination">
-                    ${state.firstPageInView > 1 ? 
-                        '<li class="page-item"><a id="Prev" class="page-link" style="cursor:pointer;">&laquo;</a></li>' 
-                        : ''
-                    }
+                    ${state.firstPageInView > 1 ?
+            '<li class="page-item"><a id="Prev" class="page-link" style="cursor:pointer;">&laquo;</a></li>'
+            : ''
+        }
                     ${pages.map(page => `
                         <li class="page-item">
                             <a id="page${page}" 
@@ -160,9 +179,9 @@ function buildPagination() {
                         </li>
                     `).join('')}
                     ${totalPages > state.firstPageInView + 4 ?
-                        '<li class="page-item"><a id="Next" class="page-link" style="cursor:pointer;">&raquo;</a></li>'
-                        : ''
-                    }
+            '<li class="page-item"><a id="Next" class="page-link" style="cursor:pointer;">&raquo;</a></li>'
+            : ''
+        }
                 </ul>
             </nav>
         </div>
@@ -203,7 +222,7 @@ const handleSearch = debounce((searchTerm) => {
 }, SEARCH_DEBOUNCE_DELAY);
 
 // Event Listeners
-document.getElementById('Rechercher').addEventListener('input', 
+document.getElementById('Rechercher').addEventListener('input',
     (e) => handleSearch(e.target.value)
 );
 
@@ -240,7 +259,43 @@ function debounce(fn, delay) {
         timeoutId = setTimeout(() => fn(...args), delay);
     };
 }
+/**
+ * Fonction pour filtrer les categories
+ * @param value
+ */
+function filterCategory(value) {
+    if (value === 'all') {
+        state.currentData = [...state.allData];
+    } else {
+        state.currentData = state.allData.filter(article => article.category === value);
+    }
+    resetPagination();
+    updateArticlesDisplay();
+}
+// Construire le filtre
+function BuildFilter() {
+    document.querySelector('.filtreDiv').innerHTML = `
+     
+      <form class="filtre d-flex w-75 align-items-center" role="search">
+        <label class=" d-flex me-2 mb-0" for="categorySelect"><i style="font-size:30px" class="bi bi-filter i"></i></label>
+        <select class="form-select custom-select" id="categorySelect">
+            <option value="all">Toutes</option>
+            <option value="Technologie">Technologie</option>
+            <option value="art">Art</option>
+            <option value="Histoire">Histoire</option>
+            <option value="science">Science</option>
+           
+        </select>
+      </form>
+       <p class="mt-2 text">Explorez une variété de sujets passionnants et enrichissants.</p>
+    `;
+    // Attache l'événement après l'injection HTML
+    document.getElementById('categorySelect').addEventListener('change', function () {
+        filterCategory(this.value);
+    });
+}
 
 // Initialisation
 buildPagination();
 updateArticlesDisplay();
+BuildFilter();

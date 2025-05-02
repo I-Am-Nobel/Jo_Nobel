@@ -16,6 +16,7 @@ export function Esp8266() {
             number: 243851780126,
             whatsapp: 243851780126,
         },
+        category: 'Technologie',
         content: `
 # Contrôler une LED à distance avec un ESP8266 et une interface web simple
 

@@ -16,6 +16,7 @@ export function CongoBelge10c() {
             number: 243851780126,
             whatsapp: 243851780126,
         },
+        category: 'Histoire',
         sources: `
 ---
 

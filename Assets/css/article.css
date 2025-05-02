@@ -1,0 +1,82 @@
+        :root {
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+
+        .article-card {
+            /* background: white; */
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .article-image {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            /* color: #1a1a1a; */
+            margin-bottom: 0.75rem;
+        }
+
+        .article-excerpt {
+            /* color: #566; */
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .article-actions button {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .article-actions button:hover {
+            /* color: var(--primary-color); */
+        }
+        .read-more {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            display: inline-block;
+            border: 0.3px solid #aaa;
+            font-size:20px ;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .read-more a{
+            text-decoration: none;
+            /* color: #1a1a1a; */
+        }
+        .read-more:hover {
+            font-size:22px ;
+        }
+
+        @media (max-width: 768px) {
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+        }
