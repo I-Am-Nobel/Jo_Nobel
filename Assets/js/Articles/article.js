@@ -119,7 +119,7 @@ function loadArticles(articles) {
                 navigator.share({
                     title: article.Titre,
                     text: article.description,
-                    url: article.url
+                    url:article.url.replace(/ /g, '-')
                 }).then(() => {
                     console.log("Partagé !");
                 }).catch(err => {
