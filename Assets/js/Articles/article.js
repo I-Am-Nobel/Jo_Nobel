@@ -18,7 +18,7 @@ const state = {
  * fonction pour copier le lien
  * @param {String} url
  */
-const handleCopy=(url)=>{
+function handleCopy(url){
     navigator.clipboard.writeText(url);
     const copier =document.querySelector('.copier-lien')
     copier &&( copier.innerHTML='Lien copié')
@@ -30,7 +30,7 @@ const handleCopy=(url)=>{
  * fonction pour partager
  * @param {Object} article 
  */
-const handleShare=(article)=>{
+function handleShare(article){
     if(navigator.share){
         navigator.share({
             title:article.Titre,
@@ -63,10 +63,10 @@ const createArticleCard = (article, index) => `
                 <i class="nav-link bi bi-list" style="font-size: 25px;" data-bs-toggle="dropdown" aria-expanded="false"> </i>
                 <div style="z-index: 5" class="dropdown-menu">
                     <div class="dropdown-item copier-lien"
-                    onclick="(${handleCopy(article.url)})()"
+                    onclick="${handleCopy((article.url).replace(/ /g,'-'))}"
                     ><i class="bi bi-link-45deg" ></i> Copier Lien </div>
                     <div class="dropdown-item"
-                    onclick="(${handleShare(article)})()"
+                    onclick="${handleShare(article)}"
                     ><i class="bi bi-share" ></i> Partager </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ const createArticleCard = (article, index) => `
         </div>
         <p>${marked.parse(article.description.trim())}</p>
         <div class="p-2 commande my-2 rounded" style="text-align: center;">
-            <a style="text-decoration: none; color: #fff; font-weight: bold;" href='${article.url}'>
+            <a style="text-decoration: none; color: #fff; font-weight: bold;" href='${(article.url).replace(/ /g,'-')}'>
                 <i class="bi bi-book"></i>
                 Lire
             </a>

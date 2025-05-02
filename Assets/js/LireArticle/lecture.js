@@ -19,8 +19,7 @@ function getArticleFromUrl() {
         if (!title) return DEFAULT_ARTICLE;
 
         const articles = Data();
-        const article = articles.find(element => element.Titre === title);
-        
+        const article = articles.find(element => element.Titre.replace(/ /g,'-') === title);
         return article || DEFAULT_ARTICLE;
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'article :', error);
