@@ -8,7 +8,7 @@ export function Esp8266() {
         ImgSrc: 'Assets/js/Articles/Redaction/Esp8266/1744255247888.jpg',
         Titre: 'Contrôler une LED à distance avec un ESP8266 et une interface',
         description: "Dans ce tutoriel, nous allons apprendre à contrôler une LED (ou tout autre appareil électrique via un relais) à distance grâce à un ESP8266...",
-        url: 'https://i-am-nobel.github.io/Jo_Nobel/article.html?title=Contrôler une LED à distance avec un ESP8266 et une interface',
+        url: '/Jo_Nobel/article.html?title=Contrôler une LED à distance avec un ESP8266 et une interface',
         AuteurContact: {
             facebook: 'https://www.facebook.com/JosueNobel',
             github: 'https://www.github.com/i-am-nobel',

@@ -8,7 +8,7 @@ export function IntelligenceArtificielle() {
         ImgSrc: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
         Titre: 'L\'Intelligence Artificielle : La Révolution Silencieuse',
         description: 'Plongez dans l\'univers fascinant de l\'Intelligence Artificielle, son évolution fulgurante et son impact sur notre quotidien...',
-        url: 'article.html?title=L\'Intelligence Artificielle : La Révolution Silencieuse',
+        url: '/Jo_Nobel/article.html?title=L\'Intelligence Artificielle : La Révolution Silencieuse',
         AuteurContact: {
             facebook: 'https://www.facebook.com/JosueNobel',
             github: 'https://www.github.com/i-am-nobel',

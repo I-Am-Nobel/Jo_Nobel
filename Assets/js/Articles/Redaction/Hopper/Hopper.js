@@ -8,7 +8,7 @@
   ImgSrc: 'https://thafd.bing.com/th/id/OIP.BwUZn6Hwwb-aqh7r6iOoAwHaEY?w=303&h=180&c=7&r=0&o=5&pid=1.7',
   Titre: 'Grace Hopper : la reine du code et des bugs',
   description: "Découvrez l'histoire incroyable de Grace Hopper, la pionnière de la programmation moderne et l'inventrice du tout premier compilateur...",
-  url: '/article.html?title=Grace Hopper : la reine du code et des bugs',
+  url: '/Jo_Nobel/article.html?title=Grace Hopper : la reine du code et des bugs',
   AuteurContact: {
   facebook: 'https://www.facebook.com/JosueNobel',
   github: 'https://www.github.com/i-am-nobel',
