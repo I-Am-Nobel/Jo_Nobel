@@ -5,12 +5,12 @@
 export default function Data() {
     // Importation des articles
     const articles = [
-        CongoBelge10c(),
-        Esp8266(),
+        AlanTuringEnigma(),
+        GraceHopper(),
         IntelligenceArtificielle(),
         Wifi7(),
-        AlanTuringEnigma(),
-        GraceHopper()
+        CongoBelge10c(),
+        Esp8266()
     ];
     
     // Validation des articles

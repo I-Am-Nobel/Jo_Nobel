@@ -287,7 +287,7 @@ function BuildFilter() {
            
         </select>
       </form>
-       <p class="mt-2 text">Explorez une variété de sujets passionnants et enrichissants.</p>
+       <p style="text-align:center" class="mt-2 text">Explorez une variété de sujets passionnants et enrichissants.</p>
     `;
     // Attache l'événement après l'injection HTML
     document.getElementById('categorySelect').addEventListener('change', function () {
